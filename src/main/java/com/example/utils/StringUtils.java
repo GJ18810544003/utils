@@ -12,6 +12,7 @@ public class StringUtils {
 
     /**
      * 版本号比较，如1.0.20与2.1.1比较大小
+     * 分隔符中的字符是否为合法数字需要自己处理
      * @param version1
      * @param version2
      * @return
