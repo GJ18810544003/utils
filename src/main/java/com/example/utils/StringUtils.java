@@ -18,6 +18,7 @@ public class StringUtils {
      * @return
      */
     public int versionCompare(String version1, String version2) {
+        System.out.println();
         String[] v1Array = version1.split("\\.");
         String[] v2Array = version2.split("\\.");
         int i = -1;
