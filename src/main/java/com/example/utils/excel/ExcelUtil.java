@@ -1,8 +1,13 @@
 package com.example.utils.excel;
 
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.*;
 
+import java.io.FileOutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -200,5 +205,62 @@ public class ExcelUtil {
         Field field = clazz.getDeclaredField(fieldName);
         Method method = clazz.getMethod(methodName, field.getType());
         method.invoke(target, args);
+    }
+
+
+    /**
+     * 写大量数据时使用，只能写不能读
+     * @param datas
+     * @param titles
+     * @param sheetName
+     * @throws Exception
+     */
+    public static void writeExcel(int[][] datas, List<String> titles, String sheetName) throws Exception {
+        SXSSFWorkbook workbook = new SXSSFWorkbook(100);
+
+        // 创建工作表
+
+        Sheet sheet = workbook.createSheet(sheetName);
+        Row headRow = sheet.createRow(0);
+        // 添加表格标题
+        for (int i = 0; i < titles.size(); i++) {
+            if (i == 0) {
+                Cell cell = headRow.createCell(0);
+                cell.setCellValue("");
+                sheet.setColumnWidth(0, 10000);
+            }
+
+            Cell cell = headRow.createCell(i + 1);
+            cell.setCellValue(titles.get(i));
+            // 设置单元格宽度
+            sheet.setColumnWidth(i, 10000);
+        }
+        // 添加表格内容
+        Cell cell = null;
+        Row row = null;
+        for (int i = 0; i < datas.length; i++) {
+
+            if (titles.size() == 0) {
+                row = sheet.createRow(i);
+            }else {
+                row = sheet.createRow(i + 1);
+            }
+            // 遍历属性列表
+            for (int j = 0; j < datas.length; j++) {
+                if (j == 0) {
+                    cell = row.createCell(j);
+                    cell.setCellValue(String.valueOf(titles.get(i)));
+                }
+
+                cell = row.createCell(j + 1);
+                cell.setCellValue(String.valueOf(datas[i][j]));
+            }
+        }
+
+        FileOutputStream outputStream = new FileOutputStream("D://新建文件夹/2017.xlsx");
+        workbook.write(outputStream);
+        outputStream.close();
+        workbook.close();
+
     }
 }

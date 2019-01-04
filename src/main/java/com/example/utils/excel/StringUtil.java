@@ -1,7 +1,4 @@
 package com.example.utils.excel;
-
-import com.douyu.wsd.parrot.common.constant.BizCode;
-import com.douyu.wsd.parrot.common.exception.BizException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -22,29 +19,6 @@ public class StringUtil {
         return stringBuilder.toString();
     }*/
 
-    /**
-     * String转Long
-     */
-    public static Long stringToLong(String str) {
-        try {
-            return Long.parseLong(str);
-        }catch (NumberFormatException e) {
-            log.error("字符串[{}]转Long类型异常：{}", str, e.getMessage());
-            throw new BizException(BizCode.INNER_DATA_INVALID, String.format("字符串[%s]转Long类型异常：[%s]", str, e.getMessage()));
-        }
-    }
-
-    /**
-     * String转Integer
-     */
-    public static Integer stringToInteger(String str) {
-        try {
-            return Integer.parseInt(str);
-        }catch (NumberFormatException e) {
-            log.error("字符串[{}]转Integer类型异常：{}", str, e.getMessage());
-            throw new BizException(BizCode.INNER_DATA_INVALID, String.format("字符串[%s]转Integer类型异常：[%s]", str, e.getMessage()));
-        }
-    }
 
     /**
      * 暂不知道有没有用
